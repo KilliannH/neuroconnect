@@ -17,4 +17,9 @@ public class LikeController {
     public void likePost(@PathVariable Long postId, @PathVariable Long userId) {
         likeService.likePost(userId, postId);
     }
+
+    @DeleteMapping("/{postId}/user/{userId}")
+    public void dislikePost(@PathVariable Long postId, @PathVariable Long userId) {
+        likeService.dislikePost(userId, postId);
+    }
 }

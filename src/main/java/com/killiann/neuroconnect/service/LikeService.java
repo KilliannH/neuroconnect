@@ -1,6 +1,7 @@
 package com.killiann.neuroconnect.service;
 
 
+import com.killiann.neuroconnect.exception.LikeNotFoundException;
 import com.killiann.neuroconnect.model.*;
 import com.killiann.neuroconnect.repository.*;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,11 @@ public class LikeService {
 
         PostLike postLike = PostLike.builder().user(user).post(post).build();
         likeRepository.save(postLike);
+    }
+
+    public void dislikePost(Long userId, Long postId) {
+        PostLike like = likeRepository.findByUserIdAndPostId(userId, postId)
+                .orElseThrow(() -> new LikeNotFoundException("Like not found"));
+        likeRepository.delete(like);
     }
 }
