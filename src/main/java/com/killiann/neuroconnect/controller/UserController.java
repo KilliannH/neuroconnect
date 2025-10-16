@@ -1,5 +1,7 @@
 package com.killiann.neuroconnect.controller;
 
+import com.killiann.neuroconnect.dto.UserPostDto;
+import com.killiann.neuroconnect.dto.UserProfileDto;
 import com.killiann.neuroconnect.exception.UserNotFoundException;
 import com.killiann.neuroconnect.model.User;
 import com.killiann.neuroconnect.repository.UserRepository;
@@ -53,9 +55,20 @@ public class UserController {
 
     // 👤 Récupérer l'utilisateur connecté via le token JWT
     @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+    public UserProfileDto me(Authentication authentication) {
         String name = authentication.getName();
         User user = userRepository.findByUsername(name).orElseThrow(() -> new UserNotFoundException("User not found with username: " + name));
-        return ResponseEntity.ok(user);
+        List<UserPostDto> posts = user.getPosts().stream()
+                .map(p -> new UserPostDto(p.getId(), p.getContent(), p.getCreatedAt()))
+                .toList();
+
+        return new UserProfileDto(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getNeuroType(),
+                user.getAvatarUrl(),
+                posts
+        );
     }
 }

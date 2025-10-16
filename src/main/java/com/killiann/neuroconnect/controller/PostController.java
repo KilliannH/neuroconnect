@@ -1,8 +1,10 @@
 package com.killiann.neuroconnect.controller;
 
+import com.killiann.neuroconnect.dto.PostDto;
 import com.killiann.neuroconnect.dto.PostRequest;
 import com.killiann.neuroconnect.model.Post;
 import com.killiann.neuroconnect.service.PostService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +25,8 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAll() {
-        return postService.getAllPosts();
+    public List<PostDto> getAll(Authentication authentication) {
+        return postService.getAllPosts(authentication);
     }
 }
 
