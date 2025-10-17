@@ -1,5 +1,6 @@
 package com.killiann.neuroconnect.service;
 
+import com.killiann.neuroconnect.dto.CommentDto;
 import com.killiann.neuroconnect.dto.CommentRequest;
 import com.killiann.neuroconnect.model.*;
 import com.killiann.neuroconnect.repository.*;
@@ -33,7 +34,16 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> getCommentsByPost(Long postId) {
-        return commentRepository.findByPostId(postId);
+    public List<CommentDto> getCommentsByPost(Long postId) {
+        return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId)
+                .stream()
+                .map(comment -> new CommentDto(
+                        comment.getId(),
+                        comment.getContent(),
+                        comment.getAuthor().getUsername(),
+                        comment.getAuthor().getAvatarUrl(),
+                        comment.getCreatedAt()
+                ))
+                .toList();
     }
 }

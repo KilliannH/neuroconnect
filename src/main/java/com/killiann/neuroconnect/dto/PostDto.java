@@ -1,6 +1,7 @@
 package com.killiann.neuroconnect.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record PostDto(
         Long id,
@@ -10,6 +11,7 @@ public record PostDto(
         String authorAvatar,
         int likeCount,
         int commentCount,
-        boolean isLikedByCurrentUser
+        boolean isLikedByCurrentUser,
+        List<CommentDto> lastComments
 ) {
 }

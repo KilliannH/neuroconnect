@@ -1,8 +1,10 @@
 package com.killiann.neuroconnect.controller;
 
+import com.killiann.neuroconnect.dto.CommentDto;
 import com.killiann.neuroconnect.dto.CommentRequest;
 import com.killiann.neuroconnect.model.Comment;
 import com.killiann.neuroconnect.service.CommentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class CommentController {
     }
 
     @GetMapping("/{postId}")
-    public List<Comment> getByPost(@PathVariable Long postId) {
-        return commentService.getCommentsByPost(postId);
+    public ResponseEntity<List<CommentDto>> getByPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(commentService.getCommentsByPost(postId));
     }
 }
